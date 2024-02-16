@@ -1,12 +1,10 @@
 package com.ohgiraffers.handlermethod;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
 import java.util.Map;
@@ -80,4 +78,27 @@ public class FirstController {
         return "first/messagePrinter";
     }
 
+    @GetMapping("search")
+    public void searchMenu(){}
+
+    /* 설명. 핸들러 메소드에 우리가 작성한 클래스를 매개변수로 작성하면 스프링이 객체를 만들어 주고 setter로 값도 주입해 준다(커맨드 객체) */
+    /* 설명.
+     *  @ModelAttribute 어노테이션을 활용하면 커맨드 개게를 모델에도 담아주며 어트리뷰트의 키값을 지정할 수 있다
+     *  (키 값이 없으면 타입의 낙타봉 표기법이 키값이다)
+    * */
+    @PostMapping("search")
+    public String searchMenu(@ModelAttribute("menu") MenuDTO menu) {
+        System.out.println("menu = " + menu);
+
+        return "first/searchResult";
+    }
+
+    @GetMapping("login")
+    public void login(){}
+
+    @PostMapping("login")
+    public String sessionTest1(HttpSession session, @RequestParam String id) {
+        session.setAttribute("id", id);
+        return "first/loginResult";
+    }
 }
